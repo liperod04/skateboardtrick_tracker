@@ -7,18 +7,32 @@
     
 
 <head>        <!-- sets up the page but doesn't show anything -->
-
-
   <meta charset="UTF-8">   <!-- "meta" as in metadata -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skateboard Builder</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    #quiz-container { display: none; margin-top:20px }
+    button { padding: 10px 100px; margin: 5px; font-size: 16px; cursor: pointer; }
+  </style>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-
 </head>
 
 <body>
-  <script src="app.js"></script>
+  <h1>Skateboard Builder</h1>
+  <button id="start-btn">Begin</button>
+
+  <div id="quiz-container">
+    <p id="question-text"></p>
+    <div id="answer-buttons"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+
+
 </body>
 </html>
