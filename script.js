@@ -11,6 +11,10 @@ const questions = [
     {
         question: "What level in skateboarding are you?",
         answers: ['Beginner', 'Intermediate', 'Pro']
+    },
+    {
+        question: "What skate style are you looking to shred in?",
+        answers: ['Street', 'Bowl/Park', 'Cruising', 'Downhill']
     }
 ];
 
@@ -32,12 +36,15 @@ function showQuestion() {
     currentQuestion.answers.forEach(answer => {
         const button = document.createElement('button');
         button.innerText = answer;
-        button.addEventListener('click', () => handleAnswer(answer));
-        answerButtons.appendChild(button);
+        button.addEventListener('click', () => handleAnswer(answer)); // If you don't add () => then it will call the function regardless if you click or not.
+        answerButtons.appendChild(button);]
+        currentQuestionIndex = currentQuestionIndex + 1
     });
+
 }
 
 function handleAnswer(answer) {
+    let selectedAnswer = [];
     console.log("You Selected:", answer);
     selectedAnswer.push(answer)
 
