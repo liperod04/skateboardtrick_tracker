@@ -37,7 +37,7 @@ function showQuestion() {
         const button = document.createElement('button');
         button.innerText = answer;
         button.addEventListener('click', () => handleAnswer(answer)); // If you don't add () => then it will call the function regardless if you click or not.
-        answerButtons.appendChild(button);]
+        answerButtons.appendChild(button);
         currentQuestionIndex = currentQuestionIndex + 1
     });
 
