@@ -1,30 +1,34 @@
-// Scene setup
-const scene = new THREE.Scene();
+console.log("✅ app.js is loaded!");
 
-// Camera setup             Field of view vvv     Sets POV same as window size      How far and close camera can see
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+window.startThreeJS = function() {
+    console.log("Three.js function is running!");
 
-// Renderer setup
-const renderer = new THREE.WebGLRenderer();        // Draws 3D scene onto the Scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    console.log("Renderer added to page.");
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+    scene.background = new THREE.Color(0xaaaaaa);
 
-// Cube setup
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+    const deckGeometry = new THREE.BoxGeometry(2, 0.1, 6);
+    const deckMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513, wireframe: true });
+    const skateboard = new THREE.Mesh(deckGeometry, deckMaterial);
+    scene.add(skateboard);
 
-// Camera position
-camera.position.z = 5;
+    console.log("Skateboard added to scene.");
 
-// Render loop
-function animate() {
-  requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  renderer.render(scene, camera);
-}
+    camera.position.z = 5;
 
-animate();
+    function animate() {
+        requestAnimationFrame(animate);
+        skateboard.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    }
+
+    animate();
+    console.log("Animation loop started.");
+};

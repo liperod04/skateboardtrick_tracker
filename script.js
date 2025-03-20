@@ -58,17 +58,26 @@ function showQuestion() {
 
 function nextQuestion(selectedAnswer) {
     console.log(`You chose: ${questions[currentQuestionIndex].options[selectedAnswer]}`);
-
+    
     currentQuestionIndex++;
 
     if (currentQuestionIndex < questions.length) {
         showQuestion();
     } else {
+        console.log("Quiz is finished! Calling endQuiz()");
         endQuiz();
     }
 }
 
+
 function endQuiz() {
-    questionText.innerHTML = "You're done! Thanks for answering.";
-    answerButtons.innerHTML = "";
+    console.log("Clearing screen for Three.js...");
+    document.body.innerHTML = "";
+
+    if (typeof window.startThreeJS === "function") {
+        console.log("startThreeJS exists! Calling it now...");
+        window.startThreeJS();
+    } else {
+        console.error("startThreeJS is STILL not defined!");
+    }
 }
