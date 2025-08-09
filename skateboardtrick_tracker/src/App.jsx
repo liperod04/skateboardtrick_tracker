@@ -1,5 +1,12 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+
 function App() {
-  return <h1>Hi</h1>;
+  return <button>Start</button>;
 }
 
 export default App;
