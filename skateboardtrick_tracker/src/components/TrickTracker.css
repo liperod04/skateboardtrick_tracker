@@ -1,0 +1,15 @@
+.lists-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+.lists-wrapper ul {
+    padding: 20px;
+    padding-right: 15vh;
+    border: 1px solid #ccc;
+}
+
+.stance-list, .rotation-list, .direction-list, .trick-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
