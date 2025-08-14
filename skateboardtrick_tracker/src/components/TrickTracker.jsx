@@ -31,10 +31,11 @@ function TrickTracker() {
 
   const fullTrickName = (r) => {
     const rotLabel = rotationById[r.rotationId];
+    const dirLabel = directionById[r.directionId];
 
     const parts = [
       stanceById[r.stanceId],
-      r.directionId ? directionById[r.directionId] : null,
+      dirLabel !== "None" ? directionById[r.directionId] : null,
       rotLabel !== "0" ? rotLabel : null,
       trickById[r.basicTrickId],
     ].filter(Boolean);
@@ -93,7 +94,7 @@ function TrickTracker() {
               Edit
             </button>
             <button type="button" onClick={addRow}>
-              Add new +
+              Add Trick
             </button>
           </>
         ) : (
