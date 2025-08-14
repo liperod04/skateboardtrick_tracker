@@ -13,7 +13,7 @@ function TrickTracker() {
       id: crypto.randomUUID(),
       stanceId: 0,
       directionId: 0,
-      rotation: 0,
+      rotationId: 0,
       basicTrickId: 0,
       notes: "",
     },
@@ -27,13 +27,16 @@ function TrickTracker() {
   const stanceById = useMemo(() => toMap(trickStance), []);
   const directionById = useMemo(() => toMap(trickDirection), []);
   const trickById = useMemo(() => toMap(trickOptions), []);
+  const rotationById = useMemo(() => toMap(trickRotation), []);
 
   const fullTrickName = (r) => {
+    const rotLabel = rotationById[r.rotationId];
+
     const parts = [
       stanceById[r.stanceId],
       r.directionId ? directionById[r.directionId] : null,
-      r.rotation ? String(r.rotation) : null,
-      trickById[r.baseTrickId],
+      rotLabel !== "0" ? rotLabel : null,
+      trickById[r.basicTrickId],
     ].filter(Boolean);
     return parts.join(" ");
   };
@@ -57,7 +60,7 @@ function TrickTracker() {
       id: crypto.randomUUID(),
       stanceId: trickStance[0].id,
       directionId: trickDirection[0].id,
-      rotation: trickRotation[0].id,
+      rotationId: trickRotation[0].id,
       basicTrickId: trickOptions[0].id,
       notes: "",
     };
@@ -69,24 +72,155 @@ function TrickTracker() {
     }
   };
 
+  const onFieldChange = (rowId, field) => (e) => {
+    const raw = e.target.value;
+    const value = field.endsWith("Id") ? Number(raw) : raw;
+
+    setDraft((prev) =>
+      prev.map((r) => (r.id === rowId ? { ...r, [field]: value } : r))
+    );
+  };
+
   return (
     <div>
-      <div className="toolbar">
+      <div
+        className="toolbar"
+        style={{ display: "flex", gap: 8, marginBottom: 12 }}
+      >
         {!isEditing ? (
           <>
-            <button onClick={startEdit}>Edit</button>
-            <button onClick={addRow}>Add +</button>
+            <button type="button" onClick={startEdit}>
+              Edit
+            </button>
+            <button type="button" onClick={addRow}>
+              Add new +
+            </button>
           </>
         ) : (
           <>
-            <button onClick={saveAll}>Save All</button>
-            <button onClick={cancelEdit}>Cancel</button>
-            <button onClick={addRow}>Add Trick</button>
+            <button type="button" onClick={saveAll}>
+              Save all
+            </button>
+            <button type="button" onClick={cancelEdit}>
+              Cancel
+            </button>
+            <button type="button" onClick={addRow}>
+              Add Trick
+            </button>
           </>
         )}
       </div>
-      {/* table will go here */}
-      <div>Table Placeholder</div>
+
+      <table className="trick-table">
+        <thead>
+          <tr>
+            <th>Stance</th>
+            <th>Direction</th>
+            <th>Rotation</th>
+            <th>Name</th>
+            <th>Trick Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {(isEditing ? draft : items).map((row) => (
+            <tr key={row.id}>
+              {isEditing ? (
+                <>
+                  <td>
+                    <select
+                      value={row.stanceId}
+                      onChange={onFieldChange(row.id, "stanceId")}
+                    >
+                      {trickStance.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.name}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+
+                  <td>
+                    <select
+                      value={row.directionId}
+                      onChange={onFieldChange(row.id, "directionId")}
+                    >
+                      {trickDirection.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.name}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+
+                  <td>
+                    <select
+                      value={row.rotationId}
+                      onChange={onFieldChange(row.id, "rotationId")}
+                    >
+                      {trickRotation.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.name}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+
+                  <td>
+                    <select
+                      value={row.basicTrickId}
+                      onChange={onFieldChange(row.id, "basicTrickId")}
+                    >
+                      {trickOptions.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.name}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+
+                  <td>
+                    <strong>{fullTrickName(row)}</strong>
+                  </td>
+
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDraft((prev) => prev.filter((r) => r.id !== row.id))
+                      }
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </>
+              ) : (
+                <>
+                  {/* READ MODE */}
+                  <td>{stanceById[row.stanceId]}</td>
+                  <td>{directionById[row.directionId]}</td>
+                  <td>{rotationById[row.rotationId]}</td>
+                  <td>{trickById[row.basicTrickId]}</td>
+                  <td>
+                    <strong>{fullTrickName(row)}</strong>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setItems((prev) => prev.filter((r) => r.id !== row.id))
+                      }
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
