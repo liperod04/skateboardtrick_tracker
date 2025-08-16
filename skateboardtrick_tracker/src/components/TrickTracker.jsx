@@ -220,7 +220,7 @@ function TrickTracker() {
                   <td>
                     <strong>{fullTrickName(row)}</strong>
                   </td>
-                  <td className="notes-cell">{row.notes || "----"}</td>
+                  <td className="notes-cell">{row.notes || "---"}</td>
                   <td>
                     <button
                       type="button"
