@@ -120,6 +120,7 @@ function TrickTracker() {
             <th>Rotation</th>
             <th>Name</th>
             <th>Trick Name</th>
+            <th>Notes</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -129,6 +130,7 @@ function TrickTracker() {
             <tr key={row.id}>
               {isEditing ? (
                 <>
+                  {/* EDIT MODE */}
                   <td>
                     <select
                       value={row.stanceId}
@@ -186,6 +188,18 @@ function TrickTracker() {
                   </td>
 
                   <td>
+                    <label>
+                      <textarea
+                        rows={5}
+                        cols={30}
+                        onChange={onFieldChange(row.id, "notes")}
+                        placeholder="Add notes..."
+                        value={row.notes || ""}
+                      ></textarea>
+                    </label>
+                  </td>
+
+                  <td>
                     <button
                       type="button"
                       onClick={() =>
@@ -206,6 +220,7 @@ function TrickTracker() {
                   <td>
                     <strong>{fullTrickName(row)}</strong>
                   </td>
+                  <td className="notes-cell">{row.notes || "----"}</td>
                   <td>
                     <button
                       type="button"
